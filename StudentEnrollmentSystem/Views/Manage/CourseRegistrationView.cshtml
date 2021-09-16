@@ -1,0 +1,69 @@
+﻿@using DataLibrary.BusinessLogic
+@using StudentEnrollmentSystem.Models
+@model StudentEnrollmentSystem.Models.CourseRegistrationModel
+
+@{
+    ViewBag.Title = "CourseRegistrationView";
+}
+
+<h2>CourseRegistrationView</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Course Registration</h4>
+        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentId, htmlAttributes: new { @class = "control-label col-md-1" })
+            @TempData["studentId"].ToString();
+        </div>
+    </div>
+    <div>
+        @Html.LabelFor(model => model.CourseId, htmlAttributes: new { @class = "control-label col-md-1" })
+        @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+        <select class="form-control" id="CourseId" name="CourseId">
+            <option value = "" disabled selected>Choose Course</option>
+            @for (int i = 0; i < CourseOperations.LoadCourseDatabase().Count; i++)
+            {
+                var course = CourseOperations.LoadCourseDatabase();
+                <option>@course[i].CourseId</option>
+            }
+        </select>
+    </div>
+
+/*    <div>
+        @Html.LabelFor(model => model.Semester, htmlAttributes: new { @class = "control-label col-md-1" })
+        @Html.ValidationMessageFor(model => model.Semester, "", new { @class = "text-danger" })
+        <select class="form-control" id="Semester" name="Semester">
+            <option value="" disabled selected>Choose Semester</option>
+            <option>Spring</option>
+            <option>Summer</option>
+            <option>Fall</option>
+            <option>Winter</option>
+        </select>
+
+    </div>
+
+*/
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Register" class="btn btn-default" />
+
+        @if (TempData.ContainsKey("AlreadyRegisteredAlert"))
+        {
+            <div class="alert alert-danger" role="alert">Class already registered</div>}
+        @if (TempData.ContainsKey("ClassRegistrationSuccessfulAlert"))
+        {
+            <div class="alert alert-success" role="alert">Class Registration Successful</div>}
+
+    </div>
+    
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back", "StudentLoginViewInfo")
+</div>

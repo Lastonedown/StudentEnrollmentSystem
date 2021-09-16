@@ -1,0 +1,53 @@
+﻿@model StudentEnrollmentSystem.Models.StudentLoginModel
+
+@{
+    ViewBag.Title = "StudentLogin";
+}
+
+<h2>Student Login</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal" align="center">
+        <h4>Student Login</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group" align="center">
+            @Html.LabelFor(model => model.StudentId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.StudentId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group"align="center">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" align="center">
+            <div class="col-md-4 col-md-offset-4" align="center">
+                <input type="submit" value="Login" class="btn btn-default" />
+            </div>
+            <div>
+                @if (TempData.ContainsKey("InvalidStudentAlert"))
+                {
+                    <div class="alert alert-danger col-md-4 col-md-offset-4" align="center" role="alert">Invalid Student ID/Password combination</div>
+                }
+            </div>
+        </div>
+
+    </div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
